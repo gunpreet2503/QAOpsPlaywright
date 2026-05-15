@@ -1,29 +1,28 @@
+```javascript id="k4p8tv"
 const { defineConfig } = require('@playwright/test');
 const { createAzurePlaywrightConfig, ServiceOS } = require('@azure/playwright');
 const { DefaultAzureCredential } = require('@azure/identity');
-const config = require('./playwright.config');
 
-/* Learn more about service configuration at https://aka.ms/pww/docs/config */
-export default defineConfig(
-  config,
-  createAzurePlaywrightConfig(config, {
+const baseConfig = require('./playwright.config');
+
+/*
+ Learn more:
+ https://aka.ms/pww/docs/config
+*/
+
+module.exports = defineConfig(
+  baseConfig,
+  createAzurePlaywrightConfig(baseConfig, {
     exposeNetwork: '<loopback>',
-    connectTimeout: 3 * 60 * 1000, // 3 minutes
+    connectTimeout: 3 * 60 * 1000,
     os: ServiceOS.LINUX,
     credential: new DefaultAzureCredential(),
   }),
   {
-    /*
-    Enable Playwright Workspaces Reporter:
-    Uncomment the reporter section below to upload test results and reports to Playwright Workspaces.
-
-    Note: The HTML reporter must be included before Playwright Workspaces Reporter.
-    This configuration will replace any existing reporter settings from your base config.
-    If you're already using other reporters, add them to this array.
-    */
     reporter: [
-      ["html", { open: "never" }],
-      ["@azure/playwright/reporter"],
+      ['html', { open: 'never' }],
+      ['@azure/playwright/reporter'],
     ],
   }
 );
+```
